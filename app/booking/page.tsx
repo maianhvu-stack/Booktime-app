@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { UserButton } from "@clerk/nextjs"
 import { Stepper } from "@/components/ui/stepper"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -202,13 +203,22 @@ export default function BookingPage() {
       {/* Header */}
       <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl supports-[backdrop-filter]:bg-black/20 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <img
-              src="/Anduin-Horizontal-White.png"
-              alt="Anduin"
-              className="h-8 w-auto"
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2">
+              <img
+                src="/Anduin-Horizontal-White.png"
+                alt="Anduin"
+                className="h-8 w-auto"
+              />
+            </Link>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-10 h-10"
+                }
+              }}
             />
-          </Link>
+          </div>
         </div>
       </header>
 

@@ -1,21 +1,8 @@
-"use client"
-
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { SignInButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 import { Button } from "@/components/ui/button"
 
 export default function HomePage() {
-  const router = useRouter()
-  const { isSignedIn, isLoaded } = useUser()
-
-  useEffect(() => {
-    // Redirect to booking page if user is signed in
-    if (isLoaded && isSignedIn) {
-      router.push("/booking")
-    }
-  }, [isLoaded, isSignedIn, router])
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -29,6 +16,7 @@ export default function HomePage() {
                 className="h-8 w-auto"
               />
             </Link>
+            {/* Empty space for cleaner homepage */}
           </div>
         </div>
       </header>
@@ -41,18 +29,16 @@ export default function HomePage() {
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-left bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80 leading-tight">
               Book Time <br /> with Our Team
             </h1>
-            <p className="text-2xl md:text-3xl text-white/90 font-medium">
-            </p>
             <div className="pt-4">
               <SignedOut>
-                <SignInButton mode="modal">
-                  <Button size="lg" className="text-lg px-8 py-6">
-                    Login to Get Started
+                <SignInButton mode="modal" forceRedirectUrl="/booking">
+                  <Button size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-[#4A9FEE] to-[#1275DC] hover:from-[#3A8FDE] hover:to-[#0d5eb8] text-white shadow-lg shadow-[#1275DC]/50">
+                    Book a Meeting
                   </Button>
                 </SignInButton>
               </SignedOut>
               <SignedIn>
-                <Button size="lg" className="text-lg px-8 py-6" asChild>
+                <Button size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-[#4A9FEE] to-[#1275DC] hover:from-[#3A8FDE] hover:to-[#0d5eb8] text-white shadow-lg shadow-[#1275DC]/50" asChild>
                   <Link href="/booking">
                     Book a Meeting
                   </Link>

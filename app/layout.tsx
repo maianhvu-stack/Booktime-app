@@ -12,7 +12,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: 'Anduin - Book Time with our Team',
-  description: 'Find the right expert and schedule a meeting in seconds. No back-and-forth emails required.',
+  description: '',
   generator: 'v0.app',
 }
 

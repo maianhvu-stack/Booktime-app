@@ -3,9 +3,10 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 const isPublicRoute = createRouteMatcher(['/'])
 
 export default clerkMiddleware(async (auth, request) => {
-  // Allow public access to landing page
-  if (isPublicRoute(request)) {
-    return
+  // Allow public access to landing page only
+  if (!isPublicRoute(request)) {
+    // Protect all other routes - require authentication
+    await auth.protect()
   }
 })
 
