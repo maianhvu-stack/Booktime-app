@@ -1,53 +1,261 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { Resend } from 'resend'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || ''
+const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
 
 const supabase = createClient(supabaseUrl, supabaseKey)
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null
 
-// Email sending function (you can replace with actual email service)
+// Email sending function via Resend
 async function sendConfirmationEmail(booking: any, teamMember: any) {
-  const emailContent = `
-Hi ${booking.guestName},
+  const emailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(180deg, #141414 13.96%, #162950 66.5%, #1275DC 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .greeting {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .confirmation {
+      background-color: #f0f9ff;
+      border-left: 4px solid #1275DC;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 4px;
+    }
+    .meeting-details {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+    .detail-row {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: flex-start;
+    }
+    .detail-row:last-child {
+      margin-bottom: 0;
+    }
+    .detail-icon {
+      font-size: 20px;
+      margin-right: 12px;
+      min-width: 24px;
+    }
+    .detail-content {
+      flex: 1;
+    }
+    .detail-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #666;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .detail-value {
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
+    }
+    .next-steps {
+      margin: 30px 0;
+    }
+    .next-steps h3 {
+      color: #1275DC;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .next-steps ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .next-steps li {
+      padding: 10px 0;
+      padding-left: 30px;
+      position: relative;
+    }
+    .next-steps li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #1275DC;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .footer {
+      background-color: #f8f9fa;
+      padding: 30px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+    }
+    .footer-divider {
+      border: 0;
+      height: 1px;
+      background-color: #e0e0e0;
+      margin: 20px 0;
+    }
+    .signature {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Meeting Confirmed! 🎉</h1>
+    </div>
 
-Great news! Your meeting has been confirmed.
+    <div class="content">
+      <div class="greeting">
+        Hi ${booking.guestName},
+      </div>
 
-Meeting Details:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 Date: ${booking.meetingDate}
-⏰ Time: ${booking.meetingTime}
-👤 With: ${teamMember.name}, ${teamMember.role}
-📧 Email: ${teamMember.email}
+      <div class="confirmation">
+         Your meeting has been confirmed. We're looking forward to connecting with you!
+      </div>
 
-Purpose: ${booking.meetingPurpose || 'General discussion'}
+      <div class="meeting-details">
+        <div class="detail-row">
+          <div class="detail-icon">📅</div>
+          <div class="detail-content">
+            <div class="detail-label">Date</div>
+            <div class="detail-value">${booking.meetingDate}</div>
+          </div>
+        </div>
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <div class="detail-row">
+          <div class="detail-icon">⏰</div>
+          <div class="detail-content">
+            <div class="detail-label">Time</div>
+            <div class="detail-value">${booking.meetingTime}</div>
+          </div>
+        </div>
 
-What's Next?
-• Add this meeting to your calendar
-• Prepare any questions or topics you'd like to discuss
-• Join the meeting on time (link will be sent separately if virtual)
+        <div class="detail-row">
+          <div class="detail-icon">👤</div>
+          <div class="detail-content">
+            <div class="detail-label">Meeting With</div>
+            <div class="detail-value">${teamMember.name}${teamMember.role ? `, ${teamMember.role}` : ''}</div>
+          </div>
+        </div>
 
-Need to reschedule? Just reply to this email and we'll help you out.
+        <div class="detail-row">
+          <div class="detail-icon">📧</div>
+          <div class="detail-content">
+            <div class="detail-label">Email</div>
+            <div class="detail-value">${teamMember.email}</div>
+          </div>
+        </div>
 
-Looking forward to connecting with you!
+        ${booking.meetingPurpose ? `
+        <div class="detail-row">
+          <div class="detail-icon">📝</div>
+          <div class="detail-content">
+            <div class="detail-label">Purpose</div>
+            <div class="detail-value">${booking.meetingPurpose}</div>
+          </div>
+        </div>
+        ` : ''}
+      </div>
 
-Best regards,
-The Anduin Team
+      <div class="next-steps">
+        <h3>What's Next?</h3>
+        <ul>
+          <li>Check your email for a calendar invitation with all the details</li>
+          <li>Add this meeting to your calendar</li>
+          <li>Prepare any questions or topics you'd like to discuss</li>
+          <li>Join the meeting on time</li>
+        </ul>
+      </div>
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Anduin | Book Time with Our Team
+      <p style="color: #666; font-size: 14px; margin-top: 30px;">
+        <strong>Need to reschedule?</strong> Just reply to this email and we'll help you out.
+      </p>
+
+      <div class="signature">
+        <p style="margin: 0;">Looking forward to connecting with you!</p>
+        <p style="margin: 10px 0 0 0;"><strong>Best regards,</strong><br>The Anduin Team</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <strong>Anduin</strong> | Book Time with Our Team
+      <hr class="footer-divider">
+      <p style="margin: 10px 0 0 0; font-size: 12px;">
+        This is an automated confirmation email. Please do not reply directly to this message.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
   `
 
-  console.log('=== CONFIRMATION EMAIL ===')
-  console.log('To:', booking.guestEmail)
-  console.log('Subject: Meeting Confirmed with', teamMember.name)
-  console.log('Content:', emailContent)
-  console.log('========================')
+  // If Resend is configured, send actual email
+  if (resend) {
+    try {
+      const result = await resend.emails.send({
+        from: 'Anduin Team <bookings@anduintransact.com>',
+        to: booking.guestEmail,
+        subject: `Meeting Confirmed with ${teamMember.name}`,
+        html: emailHtml,
+      })
 
-  return true
+      console.log('✅ Email sent successfully via Resend:', result)
+      return true
+    } catch (error) {
+      console.error('❌ Failed to send email via Resend:', error)
+      return false
+    }
+  } else {
+    // Fallback: Log to console if Resend not configured
+    console.log('=== CONFIRMATION EMAIL (Resend not configured) ===')
+    console.log('To:', booking.guestEmail)
+    console.log('Subject: Meeting Confirmed with', teamMember.name)
+    console.log('Note: Set RESEND_API_KEY in .env.local to send actual emails')
+    console.log('========================')
+    return true
+  }
 }
 
 export async function POST(request: NextRequest) {
