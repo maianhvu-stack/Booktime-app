@@ -8,7 +8,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import { SimpleAvailability } from "@/components/simple-availability"
-import { SearchIcon, CheckCircle2, User } from "lucide-react"
+import { SearchIcon, CheckCircle2, User, Clock } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 const BOOKING_STEPS = [
   { title: "Your Info & Find Team"},
@@ -60,6 +70,13 @@ export default function BookingPage() {
   const [selectedSlot, setSelectedSlot] = useState<{ date: string; time: string } | null>(null)
   const [isLoadingSlots, setIsLoadingSlots] = useState(false)
   const [sessionId, setSessionId] = useState<string>("")
+
+  // Meeting details dialog
+  const [showMeetingDialog, setShowMeetingDialog] = useState(false)
+  const [tempSlot, setTempSlot] = useState<{ date: string; time: string } | null>(null)
+  const [meetingTitle, setMeetingTitle] = useState("")
+  const [meetingDescription, setMeetingDescription] = useState("")
+  const [meetingDuration, setMeetingDuration] = useState("60") // 30 or 60 minutes
 
   // Booking
   const [bookingSuccess, setBookingSuccess] = useState(false)
@@ -140,7 +157,14 @@ export default function BookingPage() {
   }
 
   const handleSelectSlot = (date: string, time: string) => {
-    setSelectedSlot({ date, time })
+    setTempSlot({ date, time })
+    setShowMeetingDialog(true)
+  }
+
+  const handleConfirmMeetingDetails = () => {
+    if (!tempSlot) return
+    setSelectedSlot(tempSlot)
+    setShowMeetingDialog(false)
     setCurrentStep(3)
   }
 
@@ -158,6 +182,9 @@ export default function BookingPage() {
           guestName: userName,
           guestEmail: userEmail,
           timezone: userTimezone,
+          duration: parseInt(meetingDuration),
+          title: meetingTitle || "Meeting",
+          description: meetingDescription || "",
         }),
       })
 
@@ -280,7 +307,7 @@ export default function BookingPage() {
                       <Button
                         onClick={handleSearch}
                         disabled={isSearching}
-                        className="h-12 px-8 text-base bg-[#1275DC] hover:bg-[#0d5eb8] text-white shadow-lg shadow-[#1275DC]/50"
+                        className="h-12 px-8 text-base bg-gradient-to-r from-[#4A9FEE] to-[#1275DC] hover:from-[#3A8FDE] hover:to-[#0d5eb8] text-white shadow-lg shadow-[#1275DC]/50"
                       >
                         {isSearching ? "Searching..." : "Search"}
                       </Button>
@@ -330,10 +357,10 @@ export default function BookingPage() {
                   <Button
                     onClick={handleProceedToCalendar}
                     disabled={!userName || !userEmail || !selectedMember}
-                    className="w-full mt-8 h-12 text-base bg-[#1275DC] hover:bg-[#0d5eb8] text-white shadow-lg shadow-[#1275DC]/50"
+                    className="w-full mt-8 h-12 text-base bg-gradient-to-r from-[#4A9FEE] to-[#1275DC] hover:from-[#3A8FDE] hover:to-[#0d5eb8] text-white shadow-lg shadow-[#1275DC]/50"
                     size="lg"
                   >
-                    Continue to Calendar
+                    View Availability
                   </Button>
                 </div>
               )}
@@ -344,7 +371,7 @@ export default function BookingPage() {
                   <div className="space-y-2">
                     <h2 className="text-2xl font-bold">Select Available Time</h2>
                     <p className="text-muted-foreground">
-                      Showing availability for {selectedMember.name}
+                    {selectedMember.name}'s calendar 
                     </p>
                     <p className="text-sm text-muted-foreground">
                       Times shown in {TIMEZONES.find(tz => tz.value === userTimezone)?.label}
@@ -399,9 +426,21 @@ export default function BookingPage() {
                           {selectedSlot.date} at {selectedSlot.time}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          {TIMEZONES.find(tz => tz.value === userTimezone)?.label}
+                          {TIMEZONES.find(tz => tz.value === userTimezone)?.label} • {meetingDuration} minutes
                         </p>
                       </div>
+                      {meetingTitle && (
+                        <div>
+                          <p className="text-sm text-muted-foreground">Meeting Title</p>
+                          <p className="text-lg font-semibold">{meetingTitle}</p>
+                        </div>
+                      )}
+                      {meetingDescription && (
+                        <div>
+                          <p className="text-sm text-muted-foreground">Description</p>
+                          <p className="text-sm">{meetingDescription}</p>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
 
@@ -411,7 +450,7 @@ export default function BookingPage() {
                     </Button>
                     <Button
                       onClick={handleConfirmBooking}
-                      className="flex-1 bg-[#1275DC] hover:bg-[#0d5eb8] text-white"
+                      className="flex-1 bg-gradient-to-r from-[#4A9FEE] to-[#1275DC] hover:from-[#3A8FDE] hover:to-[#0d5eb8] text-white"
                     >
                       Confirm Booking
                     </Button>
@@ -431,7 +470,7 @@ export default function BookingPage() {
                   <p className="text-muted-foreground">
                     A confirmation email has been sent to {userEmail}.
                   </p>
-                  <Button asChild className="mt-4 bg-[#1275DC] hover:bg-[#0d5eb8] text-white">
+                  <Button asChild className="mt-4 bg-gradient-to-r from-[#4A9FEE] to-[#1275DC] hover:from-[#3A8FDE] hover:to-[#0d5eb8] text-white">
                     <Link href="/">Back to Home</Link>
                   </Button>
                 </div>
@@ -440,6 +479,88 @@ export default function BookingPage() {
           </Card>
         </div>
       </main>
+
+      {/* Meeting Details Dialog */}
+      <Dialog open={showMeetingDialog} onOpenChange={setShowMeetingDialog}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Clock className="w-5 h-5" />
+              Meeting Details
+            </DialogTitle>
+            <DialogDescription>
+              Customize your meeting with {selectedMember?.name}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6 py-4">
+            {/* Selected Time Display */}
+            <div className="bg-accent/20 rounded-lg p-4">
+              <p className="text-sm text-muted-foreground mb-1">Selected Time</p>
+              <p className="font-semibold text-lg">
+                {tempSlot?.date} at {tempSlot?.time}
+              </p>
+            </div>
+
+            {/* Meeting Duration */}
+            <div className="space-y-3">
+              <Label htmlFor="duration" className="text-base">Meeting Duration *</Label>
+              <RadioGroup value={meetingDuration} onValueChange={setMeetingDuration}>
+                <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-accent/50 cursor-pointer">
+                  <RadioGroupItem value="30" id="duration-30" />
+                  <Label htmlFor="duration-30" className="flex-1 cursor-pointer">
+                    <span className="font-semibold">30 minutes</span>
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-3 border rounded-lg p-4 hover:bg-accent/50 cursor-pointer">
+                  <RadioGroupItem value="60" id="duration-60" />
+                  <Label htmlFor="duration-60" className="flex-1 cursor-pointer">
+                    <span className="font-semibold">1 hour</span>
+                  </Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            {/* Meeting Title */}
+            <div className="space-y-2">
+              <Label htmlFor="meeting-title" className="text-base">Meeting Title</Label>
+              <Input
+                id="meeting-title"
+                placeholder=""
+                value={meetingTitle}
+                onChange={(e) => setMeetingTitle(e.target.value)}
+                className="h-11"
+              />
+            </div>
+
+            {/* Meeting Description */}
+            <div className="space-y-2">
+              <Label htmlFor="meeting-description" className="text-base">
+                Description <span className="text-muted-foreground text-sm">(Optional)</span>
+              </Label>
+              <Textarea
+                id="meeting-description"
+                placeholder="Tell us what you'd like to discuss..."
+                value={meetingDescription}
+                onChange={(e) => setMeetingDescription(e.target.value)}
+                className="min-h-[100px] resize-none"
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowMeetingDialog(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleConfirmMeetingDetails}
+              className="bg-gradient-to-r from-[#4A9FEE] to-[#1275DC] hover:from-[#3A8FDE] hover:to-[#0d5eb8] text-white"
+            >
+              Continue to Confirmation
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

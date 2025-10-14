@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || ''
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
@@ -58,8 +59,10 @@ export async function POST(request: NextRequest) {
       time,
       guestName,
       guestEmail,
-      guestPhone,
-      meetingPurpose,
+      timezone,
+      duration,
+      title,
+      description,
     } = body
 
     if (!teamMemberId || !date || !time || !guestName || !guestEmail) {
@@ -82,14 +85,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Save to database first
     const { data: booking, error: bookingError } = await supabase
       .from('bookings')
       .insert({
         team_member_id: teamMemberId,
         guest_name: guestName,
         guest_email: guestEmail,
-        guest_phone: guestPhone || null,
-        meeting_purpose: meetingPurpose || 'General discussion',
+        meeting_purpose: title || 'Meeting',
         meeting_date: date,
         meeting_time: time,
         status: 'confirmed',
@@ -105,6 +108,82 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Call n8n/Flowise to create Google Calendar event
+    console.log('📅 Creating calendar event via n8n/Flowise...')
+
+    try {
+      // Build a natural language request for Flowise to create the event
+      const createEventQuery = `Create a calendar event with the following details:
+- Title: ${title || 'Meeting'}
+- Description: ${description || ''}
+- Date and Time: ${date} ${time}
+- Duration: ${duration || 60} minutes
+- Timezone: ${timezone || 'Asia/Ho_Chi_Minh'}
+- Attendees: ${guestName} (${guestEmail}) and ${teamMember.name} (${teamMember.email})
+- Organizer: ${teamMember.name} (${teamMember.email})
+
+Please create this calendar event and send invitations to both attendees.`
+
+      const eventPayload = {
+        question: createEventQuery,
+        action: 'create_event',
+        eventDetails: {
+          summary: title || 'Meeting',
+          description: description || '',
+          startTime: `${date} ${time}`,
+          duration: duration || 60,
+          timezone: timezone || 'Asia/Ho_Chi_Minh',
+          attendees: [
+            {
+              email: guestEmail,
+              name: guestName,
+              type: 'external'
+            },
+            {
+              email: teamMember.email,
+              name: teamMember.name,
+              type: 'internal'
+            }
+          ],
+          organizer: {
+            email: teamMember.email,
+            name: teamMember.name
+          }
+        }
+      }
+
+      console.log('Event payload:', JSON.stringify(eventPayload, null, 2))
+
+      if (N8N_WEBHOOK_URL) {
+        const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventPayload),
+        })
+
+        if (n8nResponse.ok) {
+          const result = await n8nResponse.json()
+          console.log('✅ Calendar event created via Flowise:', result)
+
+          return NextResponse.json({
+            success: true,
+            booking,
+            calendarEvent: result,
+            message: 'Booking confirmed and calendar invitations sent to both parties',
+          })
+        } else {
+          console.error('❌ n8n/Flowise webhook error:', n8nResponse.status)
+          const errorText = await n8nResponse.text()
+          console.error('Error details:', errorText)
+        }
+      } else {
+        console.warn('⚠️ N8N_WEBHOOK_URL not configured')
+      }
+    } catch (n8nError) {
+      console.error('❌ Error calling n8n/Flowise:', n8nError)
+    }
+
+    // Fallback: Send confirmation email (legacy)
     await sendConfirmationEmail(
       {
         ...booking,
@@ -117,7 +196,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       booking,
-      message: 'Booking confirmed and confirmation email sent',
+      message: 'Booking confirmed',
     })
   } catch (error) {
     console.error('Booking error:', error)
