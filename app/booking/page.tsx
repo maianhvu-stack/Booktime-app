@@ -185,6 +185,7 @@ export default function BookingPage() {
           duration: parseInt(meetingDuration),
           title: meetingTitle || "Meeting",
           description: meetingDescription || "",
+          sessionId: sessionId, // Include sessionId from availability check
         }),
       })
 

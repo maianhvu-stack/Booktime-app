@@ -5,6 +5,7 @@ import { Resend } from 'resend'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || ''
+const N8N_CREATE_EVENT_WEBHOOK = process.env.N8N_CREATE_EVENT_WEBHOOK || ''
 const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
 
 const supabase = createClient(supabaseUrl, supabaseKey)
@@ -271,6 +272,7 @@ export async function POST(request: NextRequest) {
       duration,
       title,
       description,
+      sessionId,
     } = body
 
     if (!teamMemberId || !date || !time || !guestName || !guestEmail) {
@@ -332,7 +334,7 @@ export async function POST(request: NextRequest) {
 
 Please create this calendar event and send invitations to both attendees.`
 
-      const eventPayload = {
+      const eventPayload: any = {
         question: createEventQuery,
         action: 'create_event',
         eventDetails: {
@@ -360,10 +362,21 @@ Please create this calendar event and send invitations to both attendees.`
         }
       }
 
+      // Include sessionId if provided (so Flowise knows this is a continuation of the conversation)
+      if (sessionId) {
+        eventPayload.sessionId = sessionId
+        eventPayload.overrideConfig = { sessionId }
+        console.log(`🔗 Using sessionId: ${sessionId}`)
+      }
+
       console.log('Event payload:', JSON.stringify(eventPayload, null, 2))
 
-      if (N8N_WEBHOOK_URL) {
-        const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
+      // Use dedicated event creation webhook if available, otherwise fall back to main webhook
+      const webhookUrl = N8N_CREATE_EVENT_WEBHOOK || N8N_WEBHOOK_URL
+
+      if (webhookUrl) {
+        console.log(`📤 Sending to webhook: ${webhookUrl}`)
+        const n8nResponse = await fetch(webhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(eventPayload),
@@ -385,7 +398,7 @@ Please create this calendar event and send invitations to both attendees.`
           console.error('Error details:', errorText)
         }
       } else {
-        console.warn('⚠️ N8N_WEBHOOK_URL not configured')
+        console.warn('⚠️ No webhook URL configured for event creation')
       }
     } catch (n8nError) {
       console.error('❌ Error calling n8n/Flowise:', n8nError)
