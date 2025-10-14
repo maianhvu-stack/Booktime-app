@@ -1,0 +1,139 @@
+Employee,Work email,Title,Department
+Eliot Hodges,eliothodges@anduintransact.com,CEO,Executive
+Han Tran,hantran@anduintransact.com,Manager of Financial Planning & Analysis,Finance
+Alin Bui,alinbui@anduintransact.com,COO & CoFounder,Executive
+Sarah Donovan,sarahdonovan@anduintransact.com,Manager of Digitization Consultation,Digitization
+Huong Do,huongdo@anduintransact.com,Principal Product Manager,Product
+Eric Chen,ericchen@anduintransact.com,Implementation Manager,Customer Success
+Steven Luong,stevenluong@anduintransact.com,Implementation Manager,Customer Success
+Amelia Rice,ameliarice@anduintransact.com,People Operations Associate,People Ops
+Evan Iaslovits,evaniaslovits@anduintransact.com,Associate Relationship Manager,Relationship Management
+Thuy Linh Nguyen,thuylinhnguyen@anduintransact.com,Senior Financial Specialist,Finance
+Jonathan Tam,jonathantam@anduintransact.com,Implementation Manager,Customer Success
+Ketiana Osias,ketianaosias@anduintransact.com,Digitization Service Specialist I,Digitization
+Spencer Francis,spencerfrancis@anduintransact.com,Associate Solutions Manager,Sales
+Michael Tyler,michaeltyler@anduintransact.com,Senior Manager of Accounts,Relationship Management
+Drew Sommer,drewsommer@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Van Nguyen,vannguyen@anduintransact.com,Product Associate,Product
+An La,anla@anduintransact.com,Manager of Digitization Service,Digitization
+Vi Nguyen,vinguyen@anduintransact.com,Digitization Service Associate,Digitization
+Nghia Vo,nghiavo@anduintransact.com,QA Engineer,Engineering
+An Nguyen,annguyen@anduintransact.com,Data Engineer,Engineering
+Ngoc Bui,ngocbui@anduintransact.com,Senior Manager of QA Engineering,Engineering
+An Vo,anvo@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Ngoc Truong,ngoctruong@anduintransact.com,Senior Implementation Manager,Customer Success
+Xuan Tran,xuantran@anduintransact.com,Product Manager II,Product
+Bao Ngo,baongo@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Nguyen Nguyen,nguyennguyen@anduintransact.com,"Software Engineering Lead, Product Development",Engineering
+Bao Cong,baocong@anduintransact.com,"QA Engineer, Legal Tech",Engineering
+Nguyen Vo,nguyenvo@anduintransact.com,"Software Engineer, Product Development",Engineering
+Benjamin Tortorelli,bentortorelli@anduintransact.com,Manager of Product Design,Design
+Nhi Phung,nhiphung@anduintransact.com,Digitization Service Associate,Digitization
+Benjamin Ahm,benjaminahm@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Nhu Truong,nhutruong@anduintransact.com,Digitization Service Lead,Digitization
+Binh Nguyen,binhnguyen@anduintransact.com,CTO,Engineering
+Nhu Huynh,nhuhuynh@anduintransact.com,Digitization Service Lead,Digitization
+Nhut Tran,nhuttran@anduintransact.com,QA Engineer,Engineering
+Can Nguyen,cannguyen@anduintransact.com,Director of Legal,Digitization
+Chuc Ly,chucly@anduintransact.com,QA Engineering Lead,Engineering
+Phuoc Nguyen,phuocnguyen@anduintransact.com,"Principal Software Engineer, Product Development",Engineering
+Cuong Tran,cuongtran@anduintransact.com,"Software Engineering Lead, Product Development",Engineering
+Phuoc Vo,phuocvo@anduintransact.com,Senior QA Engineer,Engineering
+Cuong Pham,cuongpham@anduintransact.com,Director of Engineering,Engineering
+Phuong Nguyen,phuongnguyen@anduintransact.com,Principal Digitization Optimization Specialist,Digitization
+Danh Le,danhle@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Phuong Anh Nguyen,phuonganhnguyen@anduintransact.com,Digitization Service Associate,Digitization
+Dieu Linh Nguyen,dieulinhnguyen@anduintransact.com,Digitization Service Lead,Digitization
+Phuong Anh Vuong,phuonganhvuong@anduintransact.com,"Software Engineer, Product Development",Engineering
+Doan Vo,doanvo@anduintransact.com,Digitization Operations Associate,Digitization
+Amy Nguyen,amynguyen@anduintransact.com,Product Manager I,Product
+Duy Luong,duyluong@anduintransact.com,Product Design Lead,Design
+Quan Chau,quanchau@anduintransact.com,QA Engineer,Engineering
+Duyen Nguyen,duyennguyen@anduintransact.com,Senior Financial Specialist,Finance
+Quang Do,quangdo@anduintransact.com,Director of Engineering,Engineering
+Ha Ta,hata@anduintransact.com,Manager of Product Development,Product
+Quynh Anh Pham,quynhanhpham@anduintransact.com,Product Manager I,Product
+San Nguyen,sannguyen@anduintransact.com,Digitization Service Associate,Digitization
+Hanh Nguyen,hanhnguyen@anduintransact.com,HR Specialist II,People Ops
+Sen Huynh,senhuynh@anduintransact.com,QA Engineer,Engineering
+Tam Nguyen,ductamnguyen@anduintransact.com,"Principal Software Engineer, Product Development",Engineering
+Tam Thai,tamthai@anduintransact.com,"Software Engineering Lead, Legal Tech",Engineering
+Hoang Mai,hoangmai@anduintransact.com,"Senior Software Engineer, Product Development",Engineering
+Hoang Dinh,hoangdinh@anduintransact.com,"Software Engineer, Product Development",Engineering
+Thanh Hoang,thanhhoang@anduintransact.com,"QA Engineer, Legal Tech",Engineering
+Hoang Dao,hoangdao@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Thanh Le,thanhle@anduintransact.com,IT/ Security Specialist,Engineering
+Hoang Vu,hoangvu@anduintransact.com,"Software Engineer, Product Development",Engineering
+Thien Phuoc Nguyen,thienphuocnguyen@anduintransact.com,Digitization Operations Lead,Digitization
+Hung Huynh,hunghuynh@anduintransact.com,"Software Engineering Lead, Legal Tech",Engineering
+Thu Tran,thutran@anduintransact.com,Principal Digitization Optimization Specialist,Digitization
+Huong Truong,huongtruong@anduintransact.com,Digitization Operations Specialist I,Digitization
+Thu Le,thule@anduintransact.com,Product Design Lead,Design
+Huong Nguyen,huongnguyen@anduintransact.com,Part-time Product Marketing,Marketing
+Tran Au,tranau@anduintransact.com,Digitization Service Specialist II,Digitization
+Huy Ha,huyha@anduintransact.com,"Software Engineer, Product Development",Engineering
+Trang Phan,trangphan@anduintransact.com,QA Engineer,Engineering
+Huy Le,huyle@anduintransact.com,Digitization Service Specialist I,Digitization
+Huy Nguyen,huynguyen@anduintransact.com,"Software Engineer, Product Development",Engineering
+Tri Nguyen,tringuyen@anduintransact.com,Product Designer II,Design
+Huy Tran,huytran@anduintransact.com,Digitization Service Associate,Digitization
+Triet Pham,trietpham@anduintransact.com,Principal QA Engineer,Engineering
+Julien Houbin,julienhoubin@anduintransact.com,Director of Product Development,Product
+Trung Le,trungle@anduintransact.com,Digitization Operations Specialist I,Digitization
+Khang Pham,khangpham@anduintransact.com,Digitization Service Specialist I,Digitization
+Hoang Trung Nguyen,hoangtrungnguyen@anduintransact.com,"Software Engineer, Product Development",Engineering
+Khanh Nguyen,thuykhanhnguyen@anduintransact.com,Digitization Optimization Specialist I,Digitization
+Tuan Vuong,tuanvuong@anduintransact.com,"Software Engineer, Product Development",Engineering
+Khoa Nguyen,khoanguyen@anduintransact.com,Senior Workplace Experience Specialist,People Ops
+Kinh Thu Le,kinhthule@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Lap Duong,lapduong@anduintransact.com,Senior Manager of Digitization,Digitization
+Tuan Anh Tran Dang,tuananhtran@anduintransact.com,"Senior Software Engineer, Product Development",Engineering
+Linh Nguyen,linhnguyen@anduintransact.com,Senior Manager of Strategy,Strategy
+Tuan Anh Nguyen,tuananhnguyen@anduintransact.com,"Principal Software Engineer, Product Development",Engineering
+Tue Tran,tuetran@anduintransact.com,Digitization Optimization Lead,Digitization
+Linh Kieu,linhkieu@anduintransact.com,Business Intelligence Specialist I,Strategy
+Loi Dang,loidang@anduintransact.com,Part- Time Product Designer I,Design
+Tung Do,tungdo@anduintransact.com,IT/Security Manager,Engineering
+Luat Pham,luatpham@anduintransact.com,QA Engineering Lead,Engineering
+Mai Anh Vu,maianhvu@anduintransact.com,Strategy Operation Associate,Strategy
+Van Do,vando@anduintransact.com,Digitization Service Associate,Digitization
+Nga Nhan,nganhan@anduintransact.com,QA Engineer,Engineering
+Paul Ipavec,paulipavec@anduintransact.com,Senior Enterprise Account Executive I,Sales
+Phuong Truong,phuongtruong@anduintransact.com,Product Manager II,Product
+Vuong Nguyen,vuongnguyen@anduintransact.com,"Software Engineer, Legal Tech",Engineering
+Dat Nguyen,tuandatnguyen@anduintransact.com,Product Development Lead,Product
+Van Tran,vantran@anduintransact.com,Digitization Ops Associate,Digitization
+Andrew Klawiter,andrewklawiter@anduintransact.com,Implementation Manager I,Customer Success
+Jimmy Brasco,jimmybrasco@anduintransact.com,Relationship Manager,Relationship Management
+Jonathan Fine,jonathanfine@anduintransact.com,Partnerships Manager,Partnerships
+Zaina Zaki,zainazaki@anduintransact.com,Enterprise Account Executive I,Sales
+Ro Zac Said,rozacsaid@anduintransact.com,Digitization Service Associate,Digitization
+Tu Nguyen,tunguyen@anduintransact.com,UI Engineer,Engineering
+Akshaya Anandasayanam,akshayaanand@anduintransact.com,Implementation Associate,Customer Success
+Masaab Sohaib,masaabsohaib@anduintransact.com,Senior Solutions Manager,Sales
+Thuy Nguyen,thuynguyen@anduintransact.com,QA Engineer,Engineering
+Trang Vu,trangvu@anduintransact.com,Product Analyst,Product
+Afham Adnan,afhamadnan@anduintransact.com,UX Writer,Design
+My Anh Khong,myanhkhong@anduintransact.com,Product Marketing Specialist I,Marketing
+Allison Le,nhile@anduintransact.com,Implementation Associate,Customer Success
+Divyanshee Makwana,divyansheemakwana@anduintransact.com,Digitization Consultant,Digitization
+Nick ​Inzeo,nickinzeo@anduintransact.com,Senior Manager of Customer Success,Customer Success
+David Heath,davidheath@anduintransact.com,Relationship Manager,Relationship Management
+Bich-Ngoc Nguyen-Thi,bichngocnguyen@anduintransact.com,Data Extraction Analyst,Digitization
+Hong An Nguyen,hongannguyen@anduintransact.com,Data Extraction Analyst,Digitization
+Samuel McCrea,samuelmccrea@anduintransact.com,Business Development Representative I,Sales
+My Nguyen,mynguyen@anduintransact.com,Data Extraction Analyst,Digitization
+Ngoc Nguyen,hongngocnguyen@anduintransact.com,Product Marketing Associate,Marketing
+Bradley Ha,bradleyha@anduintransact.com,Head of Sales,Sales
+Phat Ho,phatho@anduintransact.com,Software Engineer,Engineering
+Thu Van,thuvan@anduintransact.com,Graphic Designer I,Marketing
+Sara Kaplan,sarakaplan@anduintransact.com,Enterprise Account Executive I,Sales
+Sơn Toại Nguyen,toainguyen@anduintransact.com,Digitization Service Analyst,Digitization
+Vy Le,vyle@anduintransact.com,Digitization Service Analyst,Digitization
+Chi Nguyen,chinguyen@anduintransact.com,Digitization Service Analyst,Digitization
+Phuoc Bui,phuocbui@anduintransact.com,Digitization Operations Analyst,Digitization
+Khanh Truong,nhatkhanhtruong@anduintransact.com,Marketing Intern ,Marketing
+Vy Le,baovyle@anduintransact.com,Digitization Service Analyst,Digitization
+Tuyen Nguyen,thanhtuyennguyen@anduintransact.com,Software Engineer Intern,Engineering
+Nguyen Bui,nguyenbui@anduintransact.com,Talent Acquisition Coordinator ,People Ops
+Anh Vo,huynhanhvo@anduintransact.com,Talent Acquisition Coordinator ,People Ops
