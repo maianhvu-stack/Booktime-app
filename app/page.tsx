@@ -26,9 +26,14 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
           {/* Left side - Text and CTA */}
           <div className="space-y-8">
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-left bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80 leading-tight">
-              Book Time <br /> with Our Team
-            </h1>
+            <div>
+              <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-left bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80 leading-tight">
+                Book Time
+              </h1>
+              <p className="text-3xl md:text-4xl font-medium text-white mt-4">
+                with Anduin team
+              </p>
+            </div>
             <div className="pt-4">
               <SignedOut>
                 <SignInButton mode="modal" forceRedirectUrl="/booking">
@@ -51,7 +56,7 @@ export default function HomePage() {
           <div className="relative scale-110">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
               <img
-                src="/apointment.jpg"
+                src="/scheduler-booking.png"
                 alt="Team scheduling calendar"
                 className="w-full h-auto object-cover"
               />

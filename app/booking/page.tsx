@@ -136,6 +136,9 @@ export default function BookingPage() {
 
       const data = await response.json()
 
+      console.log('📥 Frontend received data:', data)
+      console.log('📥 Frontend received slots:', data.slots)
+
       // Update sessionId if returned from server
       if (data.sessionId) {
         setSessionId(data.sessionId)

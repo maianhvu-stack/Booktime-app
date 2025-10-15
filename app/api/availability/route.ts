@@ -216,6 +216,42 @@ export async function POST(request: NextRequest) {
           })
         }
 
+        // NEW: Check if n8n returns slots as a JSON string in "Slot" field
+        if (data.Slot && typeof data.Slot === 'string') {
+          try {
+            console.log('🔍 Found Slot field as JSON string, parsing...')
+            const parsedSlots = JSON.parse(data.Slot)
+
+            if (Array.isArray(parsedSlots) && parsedSlots.length > 0) {
+              console.log('🎉 Found real calendar slots from Flowise (parsed from Slot field)!')
+
+              // Transform to our calendar format
+              const transformedSlots = parsedSlots.map((slot: any) => ({
+                date: new Date(slot.start).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                }),
+                time: slot.startDisplay?.replace(' GMT+7', '') || slot.startVN,
+                available: true,
+                members: participants.filter((p: any) => p.type === 'internal').map((p: any) => p.email),
+                startTime: slot.start,
+                endTime: slot.end,
+              }))
+
+              console.log('📤 Transformed slots being sent to frontend:', JSON.stringify(transformedSlots, null, 2))
+
+              return NextResponse.json({
+                slots: transformedSlots,
+                sessionId: data.sessionId,
+                message: `Found ${transformedSlots.length} available time slots`,
+              })
+            }
+          } catch (parseError) {
+            console.error('❌ Error parsing Slot field:', parseError)
+          }
+        }
+
         // If n8n returns slots as an array directly (from get_available_slots tool)
         console.log('🔍 Checking if data is slots array:', {
           isArray: Array.isArray(data),
@@ -240,6 +276,8 @@ export async function POST(request: NextRequest) {
             startTime: slot.start,
             endTime: slot.end,
           }))
+
+          console.log('📤 Transformed slots being sent to frontend:', JSON.stringify(transformedSlots, null, 2))
 
           return NextResponse.json({
             slots: transformedSlots,
